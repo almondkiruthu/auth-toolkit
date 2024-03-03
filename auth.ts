@@ -69,6 +69,9 @@ export const {
         session.user.name = token.name;
         session.user.email = token.email as string;
         session.user.isOAuth = token.isOAuth as boolean;
+        session.user.mobileNumber = token.mobileNumber as string;
+        session.user.address = token.mobileNumber as string;
+        session.user.regNo = token.mobileNumber as string;
       }
 
       return session;
@@ -91,6 +94,9 @@ export const {
       token.name = existingUser.name;
       token.email = existingUser.email;
       token.role = existingUser.role;
+      token.mobileNumber = existingUser.mobileNumber;
+      token.address = existingUser.address;
+      token.regNo = existingUser.regNo;
       token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
 
       return token;

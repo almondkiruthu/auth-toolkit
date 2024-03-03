@@ -70,4 +70,16 @@ export const RegisterSchema = z.object({
   name: z.string().min(1, {
     message: "Name is required",
   }),
+  mobileNumber: z
+    .string()
+    .min(10, {
+      message: "Valid Phone Number is required",
+    })
+    .max(13, { message: "Valid Phone Number is required" }),
+  address: z.string().min(1, {
+    message: "Valid address is required",
+  }),
+  regNo: z.string().min(1, {
+    message: "Valid address is required",
+  }),
 });
