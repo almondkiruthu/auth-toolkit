@@ -49,12 +49,12 @@ export const SearchInput = ({ users }: SearchInputProps) => {
               <div className="flex items-center gap-x-8">
                 <p className="font-heading text-lg">{user.name}</p>
                 {!user.regNo ? (
-                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-[100px]" />
                 ) : (
                   <span className="text-sm">{user.regNo}</span>
                 )}
                 {!user.regNo ? (
-                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-[110px]" />
                 ) : (
                   <span className="text-sm">{user.mobileNumber}</span>
                 )}
