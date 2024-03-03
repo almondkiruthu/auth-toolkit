@@ -13,6 +13,7 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from "@/components/ui/command";
+import { Skeleton } from "@/components/ui/skeleton";
 import { UserInfo } from "@/components/user-info";
 import { db } from "@/lib/db";
 import { User } from "@prisma/client";
@@ -47,8 +48,16 @@ export const SearchInput = ({ users }: SearchInputProps) => {
               <Student className="h-6 w-6 text-primary" />
               <div className="flex items-center gap-x-8">
                 <p className="font-heading text-lg">{user.name}</p>
-                <span className="text-sm">{user.regNo}</span>
-                <span className="text-sm">{user.mobileNumber}</span>
+                {!user.regNo ? (
+                  <Skeleton className="h-4 w-full" />
+                ) : (
+                  <span className="text-sm">{user.regNo}</span>
+                )}
+                {!user.regNo ? (
+                  <Skeleton className="h-4 w-full" />
+                ) : (
+                  <span className="text-sm">{user.mobileNumber}</span>
+                )}
               </div>
             </CommandItem>
           ))}
