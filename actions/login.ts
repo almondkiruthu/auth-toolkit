@@ -44,7 +44,10 @@ export const login = async (
       verificationToken.token,
     );
 
-    return { success: "Confirmation email sent!" };
+    return {
+      success:
+        "Confirmation email sent! It might take a while to see your mail, check your spam too who knows...☹️",
+    };
   }
 
   if (existingUser.isTwoFactorEnabled && existingUser.email) {
