@@ -1,36 +1,73 @@
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+type Email = {
+  to: string;
+  name?: string;
+  subject: string;
+  body: string;
+};
 
 const domain = process.env.NEXT_PUBLIC_APP_URL!;
 
+export async function sendMail({ to, name, subject, body }: Email) {
+  const { SMTP_EMAIL, SMTP_PASSWORD } = process.env;
+
+  //Setup Gateway Transport
+  const transport = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: SMTP_EMAIL,
+      pass: SMTP_PASSWORD,
+    },
+  });
+
+  //Verify the TestResult
+  try {
+    const testResult = await transport.verify();
+    console.log(testResult);
+  } catch (error) {
+    console.error({ error });
+    return;
+  }
+
+  //Send
+  try {
+    const sendResult = await transport.sendMail({
+      from: SMTP_EMAIL,
+      to,
+      subject,
+      html: body,
+    });
+    console.log(sendResult);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export const sendTwoFactorTokenEmail = async (email: string, token: string) => {
-  await resend.emails.send({
-    from: "mail@auth-masterclass-tutorial.com",
+  await sendMail({
     to: email,
     subject: "2FA Code",
-    html: `<p>Your 2FA code: ${token}</p>`,
+    body: `<p>Your 2FA code: ${token}</p>`,
   });
 };
 
 export const sendPasswordResetEmail = async (email: string, token: string) => {
   const resetLink = `${domain}/auth/new-password?token=${token}`;
 
-  await resend.emails.send({
-    from: "mail@auth-masterclass-tutorial.com",
+  await sendMail({
     to: email,
     subject: "Reset your password",
-    html: `<p>Click <a href="${resetLink}">here</a> to reset password.</p>`,
+    body: `<p>Click <a href="${resetLink}">here</a> to reset password.</p>`,
   });
 };
 
 export const sendVerificationEmail = async (email: string, token: string) => {
   const confirmLink = `${domain}/auth/new-verification?token=${token}`;
 
-  await resend.emails.send({
-    from: "mail@auth-masterclass-tutorial.com",
+  await sendMail({
     to: email,
     subject: "Confirm your email",
-    html: `<p>Click <a href="${confirmLink}">here</a> to confirm email.</p>`,
+    body: `<p>Click <a href="${confirmLink}">here</a> to confirm email.</p>`,
   });
 };
