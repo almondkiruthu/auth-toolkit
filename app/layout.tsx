@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { SessionProvider } from "next-auth/react";
 
+import { auth } from "@/auth";
 import { cn } from "@/lib/utils";
 
 import "@/styles/globals.css";
@@ -29,19 +31,23 @@ interface RootLayoutProps {
   children: React.ReactNode;
 }
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default async function RootLayout({ children }: RootLayoutProps) {
+  const session = await auth();
+
   return (
-    <html lang="en">
-      <body
-        className={cn(
-          "font-sans_regular min-h-screen antialiased",
-          fontRegularSans.variable,
-          fontBoldSans.variable,
-          fontHeading.variable,
-        )}
-      >
-        {children}
-      </body>
-    </html>
+    <SessionProvider session={session}>
+      <html lang="en">
+        <body
+          className={cn(
+            "min-h-screen font-sans_regular antialiased",
+            fontRegularSans.variable,
+            fontBoldSans.variable,
+            fontHeading.variable,
+          )}
+        >
+          {children}
+        </body>
+      </html>
+    </SessionProvider>
   );
 }
