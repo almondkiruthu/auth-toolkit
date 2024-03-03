@@ -46,7 +46,7 @@ export const login = async (
 
     return {
       success:
-        "Confirmation email sent! It might take a while to see your mail, check your spam too who knows...☹️",
+        "Confirmation email sent! Might take a while check your spam too who knows...☹️",
     };
   }
 
